@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
 """
-@author: magne.lauritzen
+Defines data stream source apps and the various sensor data we can expect to receive.
+@author: Magne Lauritzen
 """
 
 from enum import Enum, auto
+
+class Apps(Enum):
+    SENSORSTREAMER = auto()
 
 class DataSources(Enum):
     ACCELERATION = auto()
