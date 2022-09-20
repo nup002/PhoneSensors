@@ -1,5 +1,8 @@
+# -*- coding: utf-8 -*-
 """
-A library for receiving Android device sensor data sent by the app "SensorStreamer."
+A library for receiving Android device sensor data."
+
+@author: Magne Lauritzen
 """
 import json
 import socket
@@ -8,21 +11,7 @@ import numpy as np
 from typing import List, Dict
 from json import loads
 import logging
-from enum import Enum, auto
-
-
-class DataSources(Enum):
-    ACCELERATION = auto()
-    GRAV_ACCELERATION = auto()
-    LIN_ACCELERATION = auto()
-    MAGNETIC_FIELD = auto()
-    ROTATION_VECTOR = auto()
-    ROT_VELOCITY = auto()
-    LIGHT = auto()
-    AMBIENT_TEMPERATURE = auto()
-    PRESSURE = auto()
-    PROXIMITY = auto()
-    RELATIVE_HUMIDITY = auto()
+from .sources import DataSources
 
 
 class SensorData:
@@ -68,7 +57,8 @@ class SensorData:
 
 
 class SensorDataCollection:
-    """ SensorDataCollection is a collection of SensorData instances, which each contain data from a single source.
+    """
+    SensorDataCollection is a collection of SensorData instances, which each contain data from a single source.
     Sources are IMU sensors like acceleration and relative humidity, or already processed data like the rotation vector.
     """
     def __init__(self, n_entries):
@@ -113,7 +103,7 @@ class SensorStreamerClient:
     Example usage:
     SensorStreamer must first be set to emit JSON strings as a TCP server. Then, connect to the sensor stream with the
     following code:
->>>     with SensorStreamerClient("192.168.1.1", 5000) as client:
+>>>     with phonesensors("192.168.1.1", 5000) as client:
 >>>         for packet in client:
 >>>             print(packet)
     """
@@ -138,8 +128,8 @@ class SensorStreamerClient:
 
     def _read(self):
         """
-        Waits for data on the SensorStreamerClient, reads it, parses it into an SensorDataCollection instance, and returns it.
-        If no data is received within self.timeout seconds, a TimeoutError is raised.
+        Waits for data on the phonesensors, reads it, parses it into an SensorDataCollection instance, and
+        returns it. If no data is received within self.timeout seconds, a TimeoutError is raised.
         """
         ready = select.select([self.connection], [], [], self.timeout)
         if ready[0]:
