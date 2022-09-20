@@ -1,4 +1,4 @@
-# SensorStreamerClient
+# PhoneSensors
 A Python library for receiving various sensor data from Android devices in a quick and easy way. It is meant to be used in conjunction with the SensorStreamer app.
 
 This library is a work in progress and is actively worked on. The following list shows the status of this project.
