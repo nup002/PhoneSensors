@@ -7,15 +7,17 @@ app for Android devices, but support for any other app streaming sensor data ove
 with relative ease.
 
 ## How to install
-Installation via pip is in being implemented. For now, download it manually.
+```
+pip install phonesensors
+```
 
 
 ## How to use
 Open the SensorStreamer app and make it a TCP server emitting JSON packets on a port of your choice. Port 5000 is used
-for this example. Find out the IP address of your device (e.g. 192.168.1.1). Run the following code to receive parsed 
-sensor data packets from your device:
+for this example. Find out the IP address of your device (e.g. 192.168.1.1). The following code snippet will then print
+the sensor data packets being streamed from your device:
 ```
-from main import SensorStreamerClient
+from phonesensors import SensorStreamerClient
 with SensorStreamerClient("192.168.1.1", 5000) as client:
   for packet in client:
     print(packet)
@@ -30,5 +32,6 @@ proximity_values = packet.prox.values
 proximity_timestamps = packet.prox.timestamps
 ```
 
-Data from different sources may have different number of elements due to differences in sampling frequency. For example, `acceleration_values`, a 3D vector, may have 
-4 samples and thus be a (4,3) array. While `proximity_values`, a 1D scalar, may only have one value and thus be a (1,) array. 
+Data from different sources may have different number of elements due to differences in sampling frequency. For example,
+`acceleration_values`, a 3D vector, may have 4 samples and thus be a (4,3) array. While `proximity_values`, a 1D scalar,
+may only have one sample and thus be a (1,) array. 
