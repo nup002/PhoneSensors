@@ -1,0 +1,26 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "phonesensors"
+version = "0.0.1"
+authors = [
+  { name="Magne Eik Lauritzen", email="mag.lauritzen@gmail.com" },
+]
+description = "A package for receiving data from sensor-streaming phone apps."
+readme = "README.md"
+license = { file="LICENSE" }
+requires-python = ">=3.0"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+  "numpy"
+]
+
+[project.urls]
+"Homepage" = "https://github.com/nup002/PhoneSensors"
+"Bug Tracker" = "https://github.com/nup002/PhoneSensors/issues"

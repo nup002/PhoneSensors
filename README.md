@@ -1,18 +1,19 @@
+![PyPI](https://img.shields.io/pypi/v/phonesensors?style=flat-square)
 # PhoneSensors
-A Python library for receiving various sensor data from Android devices in a quick and easy way. It is meant to be used in conjunction with the SensorStreamer app.
-
-This library is a work in progress and is actively worked on. The following list shows the status of this project.
-
-* Basic functionality ✅
-* `pip` installer ❌
-* Hosted documentation ❌
+`phonesensors` is a Python package to aid with receiving various sensor data from phones in a quick and easy way. It is 
+meant to be used in conjunction with the
+[SensorStreamer](https://play.google.com/store/apps/details?id=cz.honzamrazek.sensorstreamer&hl=en&gl=US)
+app for Android devices, but support for any other app streaming sensor data over a TCP socket can be implemented 
+with relative ease.
 
 ## How to install
-It is not yet possible to install it via `pip`. Instead, just download `main.py` and use it in your project.
+Installation via pip is in being implemented. For now, download it manually.
+
 
 ## How to use
-Open the SensorStreamer app and set it to be a TCP server emitting JSON packets on port 5000. Find out the IP address of your device (e.g. 192.168.1.1).
-Run the following code to receive parsed sensor data packets from your device:
+Open the SensorStreamer app and make it a TCP server emitting JSON packets on a port of your choice. Port 5000 is used
+for this example. Find out the IP address of your device (e.g. 192.168.1.1). Run the following code to receive parsed 
+sensor data packets from your device:
 ```
 from main import SensorStreamerClient
 with SensorStreamerClient("192.168.1.1", 5000) as client:

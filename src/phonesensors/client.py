@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-A library for receiving Android device sensor data."
+A python package for receiving phone sensor data."
 
 @author: Magne Lauritzen
 """
@@ -96,14 +96,14 @@ class SensorDataCollection:
 
 class SensorStreamerClient:
     """
-    This class allows for hassle-free connection to an Android device that is streaming sensor data with the
+    This class allows for hassle-free connection to a device that is streaming sensor data with the
     SensorStreamer app. The class is meant to be used as a context manager, and returns an iterator which yields
     sensor readings.
 
     Example usage:
     SensorStreamer must first be set to emit JSON strings as a TCP server. Then, connect to the sensor stream with the
     following code:
->>>     with phonesensors("192.168.1.1", 5000) as client:
+>>>     with SensorStreamerClient("192.168.1.1", 5000) as client:
 >>>         for packet in client:
 >>>             print(packet)
     """
@@ -113,13 +113,13 @@ class SensorStreamerClient:
         Parameters
         ----------
         ip              : String. IP address of device to connect to.
-        port            : Integer. Port of SensorStreamer socket.
+        port            : Integer. Socket port.
         bufsize         : Integer. Socket read length.
         silent_warnings : Bool. Whether to silence warnings.
         timeout         : Float. Time in seconds with no received data before the socket times out.
         """
-        self.android_ip = ip
-        self.android_port = port
+        self.device_ip = ip
+        self.device_port = port
         self.bufsize = bufsize
         self.silent_warnings = silent_warnings
         self.inputbuffer = ""
@@ -185,9 +185,9 @@ class SensorStreamerClient:
     def __enter__(self):
         """ Context manager entry. Opens the socket, connects to the device, and sets it nonblocking. """
         self.connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.connection.connect((self.android_ip, self.android_port))
+        self.connection.connect((self.device_ip, self.device_port))
         self.connection.setblocking(False)
-        logging.info(f"Connected to {self.android_ip}:{self.android_port}")
+        logging.info(f"Connected to {self.device_ip}:{self.device_port}")
         return self
 
     def __exit__(self, exc_type, exc_value, exc_traceback):
