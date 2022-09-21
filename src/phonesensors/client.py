@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 This file contains a client class that connects to a network device (i.e. a phone) streaming JSON-formatted sensors

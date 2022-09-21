@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-
+# -*- coding: utf-8 -*-
 """
 Different apps may send sensor data in a different format, and this requires different parsers to handle the data
 as it arrives. The parsers are defined in this file.

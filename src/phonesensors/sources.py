@@ -1,6 +1,8 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 Defines data stream source apps and the various sensor data we can expect to receive.
+
 @author: Magne Lauritzen
 """
 

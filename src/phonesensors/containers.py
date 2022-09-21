@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
-
+# -*- coding: utf-8 -*-
 """
 Sensor data container classes.
+
 Author: Magne Lauritzen
 """
 import numpy as np
