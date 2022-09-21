@@ -8,8 +8,10 @@ Author: Magne Lauritzen
 """
 import json
 import logging
-import numpy as np
 from typing import List, Dict, Union, Tuple
+
+import numpy as np
+
 from containers import SensorDataCollection
 
 

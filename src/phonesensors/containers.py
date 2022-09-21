@@ -5,11 +5,14 @@ Sensor data container classes.
 Author: Magne Lauritzen
 """
 import numpy as np
+
 from sources import DataSources
+
 
 class SensorData:
     """ SensorData is a class that holds samples from a single source. The data is accessed via the 'values' attribute,
     and the timestamps (if there are any) are accessed via the 'timestamps' attribute. """
+
     def __init__(self, n_entries: int, elements: int, source: DataSources):
         self.source = source
         self._timestamps = np.full(n_entries, np.nan)
@@ -54,6 +57,7 @@ class SensorDataCollection:
     SensorDataCollection is a collection of SensorData instances, which each contain data from a single source.
     Sources are IMU sensors like acceleration and relative humidity, or already processed data like the rotation vector.
     """
+
     def __init__(self, n_entries):
         self.acc = SensorData(n_entries, 3, DataSources.ACCELERATION)
         self.grav_acc = SensorData(n_entries, 3, DataSources.GRAV_ACCELERATION)
@@ -85,4 +89,3 @@ class SensorDataCollection:
         else:
             s = f"AndroidSensorData object with {n_sources} data sources:\n" + s
         return s
-
