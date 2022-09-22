@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "phonesensors"
-version = "0.0.2"
+version = "0.0.3"
 authors = [
   { name="Magne Eik Lauritzen", email="mag.lauritzen@gmail.com" },
 ]

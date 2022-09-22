@@ -50,7 +50,7 @@ class BaseParser:
 
     def _parse_entries(self, entries: List[Dict]) -> SensorDataCollection:
         """ Parses each entry in the block of data received from the phone. Implement this method in subclasses. """
-        pass
+        return entries
 
 
 class SensorStreamerParser(BaseParser):
