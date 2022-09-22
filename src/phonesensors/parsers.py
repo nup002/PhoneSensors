@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Different apps may send sensor data in a different format, and this requires different parsers to handle the data
-as it arrives. The parsers are defined in this file.
+Different apps may send sensor data in various formats, and this requires app-specific parsers to handle the data
+as it arrives. These parsers are defined in this file.
+
+To define a new parser, subclass BaseParser and implement _parse_entries.
 
 Author: Magne Lauritzen
 """

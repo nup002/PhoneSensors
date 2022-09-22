@@ -4,7 +4,7 @@
 meant to be used in conjunction with the
 [SensorStreamer](https://play.google.com/store/apps/details?id=cz.honzamrazek.sensorstreamer&hl=en&gl=US)
 app for Android devices, but support for any other app streaming sensor data over a TCP socket can be implemented 
-with ease by subclassing the `BaseParser` in `parsers.py`.
+with ease by subclassing the `BaseParser` in `parsers.py`. 
 
 ## How to install
 ```
