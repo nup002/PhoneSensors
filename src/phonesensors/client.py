@@ -11,9 +11,9 @@ import socket
 
 import select
 
-import parsers
-from containers import SensorDataCollection
-from sources import Apps
+from . import parsers
+from .containers import SensorDataCollection
+from .sources import Apps
 
 
 class SensorStreamerClient:

@@ -10,15 +10,15 @@ Author: Magne Lauritzen
 """
 import json
 import logging
-from typing import List, Dict, Union, Tuple
+from typing import List, Dict, Union, Tuple, Optional
 
 import numpy as np
 
-from containers import SensorDataCollection
+from .containers import SensorDataCollection
 
 
 class BaseParser:
-    def __init__(self, silent_warnings: bool) -> None:
+    def __init__(self, silent_warnings: bool = False) -> None:
         self.input_buffer = ""
         self.silent_warnings = silent_warnings
 
@@ -71,7 +71,8 @@ class SensorStreamerParser(BaseParser):
         data.clean()
         return data
 
-    def _parse_sample(self, sample: Dict[str, Union[List[float], float]]) \
+    @staticmethod
+    def _parse_sample(sample: Optional[Dict[str, Union[List[float], float]]]) \
             -> Tuple[Union[List[float], float], float]:
         if sample is None:
             return np.nan, np.nan

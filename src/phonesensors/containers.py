@@ -7,7 +7,7 @@ Author: Magne Lauritzen
 """
 import numpy as np
 
-from sources import DataSources
+from .sources import DataSources
 
 
 class SensorData:
