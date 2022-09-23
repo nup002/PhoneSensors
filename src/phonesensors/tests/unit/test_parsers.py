@@ -1,10 +1,9 @@
 import unittest
 import numpy as np
-from phonesensors import parsers, containers
-
+from src.phonesensors import parsers, containers
 
 class TestBaseParser(unittest.TestCase):
-    in_json_string = "{\"a\"=1}\n{\"b\"=2}\n"
+    in_json_string = "{\"a\":1}\n{\"b\":2}\n"
     out_list_expectation = [{"a": 1}, {"b": 2}]
 
     def test_full_json(self):
@@ -25,23 +24,23 @@ class TestBaseParser(unittest.TestCase):
         returns = []
         for part in json_parts:
             returns.append(base_parser(part))
-        self.assertEqual(returns, self.out_list_expectation)
+        self.assertEqual(returns, [None, [self.out_list_expectation[0]], [self.out_list_expectation[1]]])
 
 
 class TestSensorStreamerParser(unittest.TestCase):
 
     def test_full_json(self):
-        in_json_string = "{\"accelerometer\" = {\"value\" = [0,0,0], \"timestamp\"=0}, " \
-                         "\"gravity\" = {\"value\" = [1,1,1]}," \
-                         "\"linearAcceleration\" = {\"value\" = [2,2,2]}," \
-                         "\"magneticField\" = {\"value\" = [3,3,3]}," \
-                         "\"gyroscope\" = {\"value\" = [4,4,4]}," \
-                         "\"rotationVector\" = {\"value\" = [5,5,5]}," \
-                         "\"light\" = {\"value\" = 6}," \
-                         "\"pressure\" = {\"value\" = 7}," \
-                         "\"ambientTemperature\" = {\"value\" = 8}," \
-                         "\"proximity\" = {\"value\" = 9}," \
-                         "\"relativeHumidity\" = {\"value\" = 10}}\n"
+        in_json_string = "{\"accelerometer\":{\"value\":[0,0,0], \"timestamp\"=0}, " \
+                         "\"gravity\":{\"value\":[1,1,1]}," \
+                         "\"linearAcceleration\":{\"value\":[2,2,2]}," \
+                         "\"magneticField\":{\"value\":[3,3,3]}," \
+                         "\"gyroscope\":{\"value\":[4,4,4]}," \
+                         "\"rotationVector\":{\"value\":[5,5,5]}," \
+                         "\"light\":{\"value\":6}," \
+                         "\"pressure\":{\"value\":7}," \
+                         "\"ambientTemperature\":{\"value\":8}," \
+                         "\"proximity\":{\"value\":9}," \
+                         "\"relativeHumidity\":{\"value\":10}}\n"
         sensorstreamer_parser = parsers.SensorStreamerParser()
         expected = containers.SensorDataCollection(1)
         expected.acc.set([0, 0, 0], 0, 0)

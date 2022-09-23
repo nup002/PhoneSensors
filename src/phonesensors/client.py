@@ -59,10 +59,13 @@ class SensorStreamerClient:
         """
         ready = select.select([self.connection], [], [], self.timeout)
         if ready[0]:
-            raw = self.connection.recv(self.bufsize).decode('utf-8')
-            if raw == "":
-                raise IOError("Device closed connection.")
-            return self.parser(raw)
+            parsed = None
+            while parsed is not None:
+                raw = self.connection.recv(self.bufsize).decode('utf-8')
+                if raw == "":
+                    raise IOError("Device closed connection.")
+                parsed = self.parser(raw)
+            return parsed
         else:
             raise TimeoutError(f"Socket timed out. No data after {self.timeout} seconds.")
 

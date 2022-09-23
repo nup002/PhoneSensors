@@ -22,7 +22,7 @@ class BaseParser:
         self.input_buffer = ""
         self.silent_warnings = silent_warnings
 
-    def __call__(self, in_string: str) -> SensorDataCollection:
+    def __call__(self, in_string: str) -> Optional[SensorDataCollection]:
         """
         Parses in_string and returns a SensorDataCollection instance. You may override this method if it does not fit
         the data format of a specific app.
@@ -32,12 +32,15 @@ class BaseParser:
 
         Returns
         -------
-        return_data : A SensorDataCollection instance containing sensor samples.
+        return_data : A SensorDataCollection instance containing sensor samples. If 'in_string' is an incomplete
+            JSON string, None is returned instead.
         """
         in_string = self.input_buffer + in_string
         split_lines = in_string.split("\n")
         self.input_buffer = split_lines[-1]
         lines_to_parse = split_lines[:-1]
+        if len(lines_to_parse) == 0:
+            return None
         json_entries = []
         for line in lines_to_parse:
             try:
