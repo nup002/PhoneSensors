@@ -30,7 +30,7 @@ class TestBaseParser(unittest.TestCase):
 class TestSensorStreamerParser(unittest.TestCase):
 
     def test_full_json(self):
-        in_json_string = "{\"accelerometer\":{\"value\":[0,0,0], \"timestamp\"=0}, " \
+        in_json_string = "{\"accelerometer\":{\"value\":[0,0,0], \"timestamp\":0}, " \
                          "\"gravity\":{\"value\":[1,1,1]}," \
                          "\"linearAcceleration\":{\"value\":[2,2,2]}," \
                          "\"magneticField\":{\"value\":[3,3,3]}," \
@@ -59,7 +59,7 @@ class TestSensorStreamerParser(unittest.TestCase):
         self.assertEqual(returns, expected)
 
     def test_partial_json(self):
-        in_json_string = "{\"accelerometer\" = {\"value\" = [0,0,0], \"timestamp\"=0}}\n"
+        in_json_string = "{\"accelerometer\":{\"value\":[0,0,0], \"timestamp\":0}}\n"
         sensorstreamer_parser = parsers.SensorStreamerParser()
         expected = containers.SensorDataCollection(1)
         expected.acc.set([0, 0, 0], 0, 0)

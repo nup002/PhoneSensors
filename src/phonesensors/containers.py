@@ -17,7 +17,8 @@ class SensorData:
     def __init__(self, n_entries: int, elements: int, source: DataSources):
         self.source = source
         self._timestamps = np.full(n_entries, np.nan)
-        self._values = np.full((n_entries, elements), np.nan, dtype=float)
+        self._shape = (n_entries, elements) if elements > 1 else (n_entries, )
+        self._values = np.full(self._shape, np.nan, dtype=float)
 
     @property
     def length(self):
@@ -36,22 +37,31 @@ class SensorData:
         self._values[n] = value
 
     def clean(self):
-        nanmask = ~np.any(np.isnan(self._values), axis=-1)
+        nanmask = np.atleast_1d(~np.any(np.isnan(self._values), axis=-1))
         self._values = self._values[nanmask]
         self._timestamps = self._timestamps[nanmask]
-        self._values.squeeze()
 
     def __repr__(self):
         if self.length == 0:
             s = f"{self.source.name} - empty"
         else:
-            if np.all(self._timestamps == np.nan) or len(self._timestamps) != self.length:
+            if np.all(np.isnan(self._timestamps)) or len(self._timestamps) != self.length:
                 ts_str = "without timestamps"
             else:
                 ts_str = "with timestamps"
-            s = f"{self.source.name} - {self.length} elements {ts_str} - {self._values[:2]}"
+            s = f"{self.source.name} - {self.length} element(s) {ts_str} - {self._values[:2]}"
         return s
 
+    def __eq__(self, other: 'SensorData'):
+        if not isinstance(other, SensorData):
+            return False
+        if not self.source == other.source:
+            return False
+        if not np.array_equal(self._values, other._values, equal_nan=True):
+            return False
+        if not np.array_equal(self._timestamps, other._timestamps, equal_nan=True):
+            return False
+        return True
 
 class SensorDataCollection:
     """
@@ -90,3 +100,11 @@ class SensorDataCollection:
         else:
             s = f"AndroidSensorData object with {n_sources} data sources:\n" + s
         return s
+
+    def __eq__(self, other: 'SensorDataCollection'):
+        if not isinstance(other, SensorDataCollection):
+            return False
+        for sensordata_self, sensordata_other in zip(self._all, other._all):
+            if not sensordata_self == sensordata_other:
+                return False
+        return True
