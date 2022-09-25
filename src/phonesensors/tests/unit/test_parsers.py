@@ -2,6 +2,7 @@ import unittest
 import numpy as np
 from src.phonesensors import parsers, containers
 
+
 class TestBaseParser(unittest.TestCase):
     in_json_string = "{\"a\":1}\n{\"b\":2}\n"
     out_list_expectation = [{"a": 1}, {"b": 2}]
@@ -25,6 +26,10 @@ class TestBaseParser(unittest.TestCase):
         for part in json_parts:
             returns.append(base_parser(part))
         self.assertEqual(returns, [None, [self.out_list_expectation[0]], [self.out_list_expectation[1]]])
+
+    def test_broken_json(self):
+        """
+        Test that a broken JSON string raises """
 
 
 class TestSensorStreamerParser(unittest.TestCase):
@@ -92,6 +97,7 @@ class TestSensorStreamerParser(unittest.TestCase):
     def test_parse_sample_none(self):
         returns = parsers.SensorStreamerParser._parse_sample(None)
         self.assertEqual(returns, (np.nan, np.nan))
+
 
 if __name__ == '__main__':
     unittest.main()

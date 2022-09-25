@@ -16,7 +16,7 @@ from .containers import SensorDataCollection
 from .sources import Apps
 
 
-class SensorStreamerClient:
+class PhoneSensorsClient:
     """
     This class allows for hassle-free connection to a device that is streaming JSON-formatted sensor data using any app.
     The class is meant to be used as a context manager, and returns an iterator which yields sensor readings.
@@ -25,19 +25,19 @@ class SensorStreamerClient:
     This example assumes you are using the SensorStreamer app.
     First, set it to emit JSON strings as a TCP server on port 5000. Then, connect to the sensor stream with the
     following code:
->>>     with SensorStreamerClient("192.168.1.1", 5000, Apps.SENSORSTREAMER) as client:
+>>>     with PhoneSensorsClient("192.168.1.1", 5000) as client:
 >>>         for data in client:
 >>>             print(data)
     """
 
-    def __init__(self, ip: str, port: int, app: Apps, bufsize: int = 4096, silent_warnings: bool = False,
+    def __init__(self, ip: str, port: int, app=Apps.SENSORSTREAMER, bufsize: int = 4096, silent_warnings: bool = False,
                  timeout: float = 5.0, custom_parser: parsers.BaseParser = None) -> None:
         """
         Parameters
         ----------
         ip              : String. IP address of device to connect to.
         port            : Integer. Socket port.
-        app             : sources.Apps enum. Which application is transmitting the data.
+        app             : sources.Apps enum. Which application is transmitting the data. Default is SENSORSTREAMER.
         bufsize         : Integer. Socket read length.
         silent_warnings : Bool. Whether to silence warnings.
         timeout         : Float. Time in seconds with no received data before the socket times out.
@@ -62,6 +62,7 @@ class SensorStreamerClient:
             parsed = None
             while parsed is not None:
                 raw = self.connection.recv(self.bufsize).decode('utf-8')
+                print(raw)
                 if raw == "":
                     raise IOError("Device closed connection.")
                 parsed = self.parser(raw)
@@ -73,13 +74,13 @@ class SensorStreamerClient:
         if app == Apps.SENSORSTREAMER:
             return parsers.SensorStreamerParser(self.silent_warnings)
 
-    def __iter__(self) -> 'SensorStreamerClient':
+    def __iter__(self) -> 'PhoneSensorsClient':
         return self
 
     def __next__(self) -> SensorDataCollection:
         return self._read()
 
-    def __enter__(self) -> 'SensorStreamerClient':
+    def __enter__(self) -> 'PhoneSensorsClient':
         """ Context manager entry. Opens the socket, connects to the device, and sets it nonblocking. """
         self.connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.connection.connect((self.device_ip, self.device_port))
@@ -95,6 +96,6 @@ class SensorStreamerClient:
 
 # Example
 if __name__ == "__main__":
-    with SensorStreamerClient("192.168.1.21", 5000, Apps.SENSORSTREAMER) as device:
+    with PhoneSensorsClient("192.168.1.21", 5000) as device:
         for packet in device:
             print(packet)
