@@ -10,8 +10,8 @@ import unittest
 
 import numpy as np
 
-from src.phonesensors.client import PhoneSensorsClient
-from src.phonesensors.containers import SensorDataCollection
+from ...client import PhoneSensorsClient
+from ...containers import SensorDataCollection
 
 logging.basicConfig(level=logging.INFO)
 

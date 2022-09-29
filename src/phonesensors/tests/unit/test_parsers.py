@@ -2,7 +2,7 @@ import unittest
 
 import numpy as np
 
-from src.phonesensors import parsers, containers
+from ... import parsers, containers
 
 
 class TestBaseParser(unittest.TestCase):
