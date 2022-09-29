@@ -34,7 +34,7 @@ class SensorData:
     def timestamps(self):
         return self._timestamps
 
-    def set(self, value: Union[List, np.Ndarray], timestamp: float, n: int):
+    def set(self, value: Union[List, np.ndarray], timestamp: float, n: int):
         self._timestamps[n] = timestamp
         self._values[n] = value
 
