@@ -2,5 +2,3 @@
 """
 @author: magne.lauritzen
 """
-
-import numpy as np

@@ -1,5 +1,7 @@
 import unittest
+
 import numpy as np
+
 from src.phonesensors import parsers, containers
 
 

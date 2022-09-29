@@ -60,11 +60,11 @@ class PhoneSensorsClient:
         ready = select.select([self.connection], [], [], self.timeout)
         if ready[0]:
             parsed = None
-            while parsed is not None:
+            while parsed is None:
                 raw = self.connection.recv(self.bufsize).decode('utf-8')
-                print(raw)
                 if raw == "":
                     raise IOError("Device closed connection.")
+                logging.info(f"Received: {raw}")
                 parsed = self.parser(raw)
             return parsed
         else:

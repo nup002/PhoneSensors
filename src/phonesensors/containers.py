@@ -5,6 +5,8 @@ Sensor data container classes.
 
 Author: Magne Lauritzen
 """
+from typing import List, Union
+
 import numpy as np
 
 from .sources import DataSources
@@ -17,7 +19,7 @@ class SensorData:
     def __init__(self, n_entries: int, elements: int, source: DataSources):
         self.source = source
         self._timestamps = np.full(n_entries, np.nan)
-        self._shape = (n_entries, elements) if elements > 1 else (n_entries, )
+        self._shape = (n_entries, elements) if elements > 1 else (n_entries,)
         self._values = np.full(self._shape, np.nan, dtype=float)
 
     @property
@@ -32,12 +34,15 @@ class SensorData:
     def timestamps(self):
         return self._timestamps
 
-    def set(self, value, timestamp, n):
+    def set(self, value: Union[List, np.Ndarray], timestamp: float, n: int):
         self._timestamps[n] = timestamp
         self._values[n] = value
 
     def clean(self):
-        nanmask = np.atleast_1d(~np.any(np.isnan(self._values), axis=-1))
+        if self._values.ndim == 1:
+            nanmask = np.atleast_1d(~np.isnan(self._values))
+        else:
+            nanmask = np.atleast_1d(~np.any(np.isnan(self._values), axis=-1))
         self._values = self._values[nanmask]
         self._timestamps = self._timestamps[nanmask]
 
@@ -63,13 +68,14 @@ class SensorData:
             return False
         return True
 
+
 class SensorDataCollection:
     """
     SensorDataCollection is a collection of SensorData instances, which each contain data from a single source.
     Sources are IMU sensors like acceleration and relative humidity, or already processed data like the rotation vector.
     """
 
-    def __init__(self, n_entries):
+    def __init__(self, n_entries: int):
         self.acc = SensorData(n_entries, 3, DataSources.ACCELERATION)
         self.grav_acc = SensorData(n_entries, 3, DataSources.GRAV_ACCELERATION)
         self.lin_acc = SensorData(n_entries, 3, DataSources.LIN_ACCELERATION)
