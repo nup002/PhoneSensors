@@ -17,11 +17,12 @@ pip install phonesensors
 
 ## How to use
 Open the SensorStreamer app and make it a TCP server emitting JSON packets on a port of your choice. Port 5000 is used
-for this example. Find out the IP address of your device (e.g. 192.168.1.1). The following code snippet will print
+for this example. Find out the IP address of your device (e.g. 192.168.1.2). The following code snippet will print
 the sensor data being streamed from your device:
 ```
-from phonesensors import SensorStreamerClient, Apps
-with SensorStreamerClient("192.168.1.1", 5000, Apps.SENSORSTREAMER) as client:
+from phonesensors import SensorStreamerClient
+
+with SensorStreamerClient("192.168.1.2", 5000) as client:
   for data in client:
     print(data)
 ```
