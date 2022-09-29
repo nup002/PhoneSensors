@@ -10,19 +10,19 @@ Author: Magne Lauritzen
 """
 import json
 import logging
-from typing import List, Dict, Union, Tuple
+from typing import List, Dict, Union, Tuple, Optional
 
 import numpy as np
 
-from containers import SensorDataCollection
+from .containers import SensorDataCollection
 
 
 class BaseParser:
-    def __init__(self, silent_warnings: bool) -> None:
+    def __init__(self, silent_warnings: bool = False) -> None:
         self.input_buffer = ""
         self.silent_warnings = silent_warnings
 
-    def __call__(self, in_string: str) -> SensorDataCollection:
+    def __call__(self, in_string: str) -> Optional[SensorDataCollection]:
         """
         Parses in_string and returns a SensorDataCollection instance. You may override this method if it does not fit
         the data format of a specific app.
@@ -32,12 +32,15 @@ class BaseParser:
 
         Returns
         -------
-        return_data : A SensorDataCollection instance containing sensor samples.
+        return_data : A SensorDataCollection instance containing sensor samples. If 'in_string' is an incomplete
+            JSON string, None is returned instead.
         """
         in_string = self.input_buffer + in_string
         split_lines = in_string.split("\n")
         self.input_buffer = split_lines[-1]
         lines_to_parse = split_lines[:-1]
+        if len(lines_to_parse) == 0:
+            return None
         json_entries = []
         for line in lines_to_parse:
             try:
@@ -50,7 +53,7 @@ class BaseParser:
 
     def _parse_entries(self, entries: List[Dict]) -> SensorDataCollection:
         """ Parses each entry in the block of data received from the phone. Implement this method in subclasses. """
-        pass
+        return entries
 
 
 class SensorStreamerParser(BaseParser):
@@ -71,7 +74,8 @@ class SensorStreamerParser(BaseParser):
         data.clean()
         return data
 
-    def _parse_sample(self, sample: Dict[str, Union[List[float], float]]) \
+    @staticmethod
+    def _parse_sample(sample: Optional[Dict[str, Union[List[float], float]]]) \
             -> Tuple[Union[List[float], float], float]:
         if sample is None:
             return np.nan, np.nan

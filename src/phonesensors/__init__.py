@@ -1,2 +1,2 @@
-from .client import SensorStreamerClient
+from .client import PhoneSensorsClient
 from .sources import Apps
