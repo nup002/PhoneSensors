@@ -1,4 +1,4 @@
-![PyPI](https://img.shields.io/pypi/v/phonesensors?style=flat-square)
+![PyPI](https://img.shields.io/pypi/v/phonesensors?style=flat-square) [![Flake8](https://github.com/nup002/PhoneSensors/actions/workflows/flake8.yml/badge.svg)](https://github.com/nup002/PhoneSensors/actions/workflows/flake8.yml)
 # PhoneSensors
 `phonesensors` is a Python package to aid with receiving various sensor data from phones in a quick and easy way. It is 
 meant to be used in conjunction with the
