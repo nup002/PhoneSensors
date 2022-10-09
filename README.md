@@ -26,6 +26,7 @@ with SensorStreamerClient("192.168.1.2", 5000) as client:
   for data in client:
     print(data)
 ```
+For a more detailed guide for how to use PhoneSensors together with the SensorStreamer app, read this article: https://medium.com/p/6d724e3bc427
 
 ## Data format
 `data` in the above example code snippet is a `SensorDataCollection` instance. You can obtain the specific sensor data 
